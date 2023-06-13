@@ -4,7 +4,7 @@ const fileUpload = require("express-fileupload");
 const morgan = require("morgan");
 const cors = require('cors');
 const path = require('path');
-const { addImage } = require("./model/images.model");
+const { addImage, readImages } = require("./model/images.model");
 
 const UPLOAD_FS_PATH = path.join(__dirname, '..', 'data', 'uploads');
 
@@ -45,5 +45,10 @@ app.post("/api/image", async (req, res) => {
 
   return res.json(saved);
 });
+
+app.get('/api/images', async (req, res) => {
+  const images = await readImages();
+  return res.json(images);
+})
 
 module.exports = app;
