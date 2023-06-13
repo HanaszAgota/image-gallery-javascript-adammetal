@@ -15,16 +15,20 @@ function createInputBox(type, name, placeholder) {
 export class UploadForm {
 
   // Instance Initializer
-  constructor(id, action, method) {
+  constructor(id, action, method, onSubmit) {
     this.id = id;
     this.action = action;
     this.method = method;
+    this.onSubmit = onSubmit;
   }
 
   // Fields
   id = 'upload-form';
   action = '/api/image';
   method = 'POST';
+
+  // not necessary
+  onSubmit = () => {};
 
   // Method (private because of the #)
   // Class private
@@ -46,11 +50,13 @@ export class UploadForm {
     // this <--- the actual object
 
     const formEl = createEl("form", {
-      type: 'multipart/form-data',
+      enctype: 'multipart/form-data',
       method: this.method,
       action: this.action,
       id: this.id,
     });
+
+    formEl.addEventListener('submit', this.onSubmit);
 
     // Title element
     const titleEl = this.#createInputBox("text", "title", "Title of the image");
@@ -70,6 +76,12 @@ export class UploadForm {
       'image'
     )
     formEl.append(fileEl);
+
+    const submit = createEl('button', {
+      type: 'submit',
+      innerText: 'Save'
+    });
+    formEl.append(submit);
 
     toEl.append(formEl);
   }
