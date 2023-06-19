@@ -49,6 +49,8 @@ function main() {
 
   mainSection.append(images, formBox1);
   app.append(nav, mainSection);
+
+  iniGallery()
 }
 
 window.onload = main;
